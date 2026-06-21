@@ -8,6 +8,7 @@ import {
   Image,
   Button,
   Collapse,
+  NumberFormatter,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -25,12 +26,13 @@ export default function StickerCard({ sticker }: StickerCardProps) {
 
       <Card.Section inheritPadding px="md">
         <Text fz="xl">{sticker.name}</Text>
+
         <Group>
-          <Text>{sticker.price}</Text>
+          <NumberFormatter prefix="€ " value={sticker.price.toFixed(2)} />
           <Text>X</Text>
           <Text>{sticker.quantity}</Text>
           <Text>=</Text>
-          <Text>{sticker.totalPrice}</Text>
+          <NumberFormatter prefix="€ " value={sticker.totalPrice.toFixed(2)} />
         </Group>
         <Button onClick={toggle}>Show more</Button>
         <Collapse expanded={expanded}>

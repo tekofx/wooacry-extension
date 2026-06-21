@@ -1,11 +1,6 @@
-interface Data {
+interface MessageResponse {
   totalPrice: number;
   owners: Owner[];
   shipping: number;
-}
-
-interface Owner {
-  name: String;
-  price: number;
   stickers: Sticker[];
 }

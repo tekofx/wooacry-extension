@@ -7,4 +7,5 @@ interface Sticker {
   discount: number;
   quantity: number;
   imgUrl: string;
+  owner: string;
 }

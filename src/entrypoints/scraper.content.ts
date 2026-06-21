@@ -11,7 +11,7 @@ export default defineContentScript({
           'div[class*="product-cart-item_cart-item__"]',
         );
 
-        const extractedData: Sticker[] = Array.from(cartItems).map((item) => {
+        const stickers: Sticker[] = Array.from(cartItems).map((item) => {
           // 2. Query specific children relative to the item
           const nameEl: HTMLDivElement | null = item.querySelector(
             '[class*="product-cart-item_cart-item-product__"]',
@@ -54,6 +54,9 @@ export default defineContentScript({
               .trim();
           }
 
+          const ownerMatch = name.match(/\[(.*?)\]/);
+          const owner = ownerMatch ? ownerMatch[1] : "";
+
           // 4. Extract ONLY the actual price
           let price = 0;
           if (priceContainerEl) {
@@ -69,7 +72,7 @@ export default defineContentScript({
             ? parseFloat(quantityInputEl.value) || 0
             : parseQuantity(quantityEl?.textContent || "");
 
-          let totalPrice = parseFloat((quantity * price).toFixed(2));
+          let totalPrice = quantity * price;
           let variation = variationEl?.textContent?.trim() || "";
           let originalPrice = parseCurrency(
             originalPriceEl?.textContent?.trim() || "",
@@ -86,10 +89,43 @@ export default defineContentScript({
             discount: discount,
             imgUrl: imgUrl,
             totalPrice: totalPrice,
+            owner: owner,
           };
         });
 
-        sendResponse({ data: extractedData });
+        // 1. Group stickers by owner name
+        const ownersMap = stickers.reduce(
+          (acc, sticker) => {
+            const ownerName = sticker.owner;
+
+            if (!acc[ownerName]) {
+              acc[ownerName] = {
+                name: ownerName,
+                price: 0,
+                stickers: [],
+              };
+            }
+
+            // Add sticker to the owner's list
+            acc[ownerName].stickers.push(sticker);
+
+            // Accumulate total price for the owner
+            acc[ownerName].price += sticker.totalPrice;
+
+            return acc;
+          },
+          {} as Record<string, Owner>,
+        );
+
+        // 2. Convert the map object to an array
+        const owners: Owner[] = Object.values(ownersMap);
+
+        sendResponse({
+          totalPrice: 0,
+          owners: owners,
+          stickers: stickers,
+          shipping: 20,
+        });
       }
       return true;
     });

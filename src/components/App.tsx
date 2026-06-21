@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { AppShell, Burger, Button } from "@mantine/core";
+import { AppShell, Burger, Button, Group, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import StickerCard from "./StickerCard";
-interface MessageResponse {
-  data: Sticker[];
-}
+import OwnerCard from "./OwnerCard";
 function App() {
   const [opened, { toggle }] = useDisclosure();
   const [stickers, setStickers] = useState<Sticker[]>([]);
+  const [owners, setOwners] = useState<Owner[]>([]);
+
   async function getPageSource() {
     const [tab] = await browser.tabs.query({
       active: true,
@@ -20,7 +20,8 @@ function App() {
         type: "EXTRACT_CART_DATA",
       })) as MessageResponse;
 
-      setStickers(response.data);
+      setStickers(response.stickers);
+      setOwners(response.owners);
     } catch (error) {
       console.error("Failed to get HTML:", error);
     }
@@ -45,11 +46,14 @@ function App() {
 
       <AppShell.Main>
         <Button onClick={() => getPageSource()}>Clicl</Button>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {stickers.map((sticker, index) => (
+        <Stack>
+          {/* {stickers.map((sticker, index) => (
             <StickerCard sticker={sticker} />
+          ))} */}
+          {owners.map((owner, index) => (
+            <OwnerCard owner={owner} />
           ))}
-        </ul>
+        </Stack>
       </AppShell.Main>
     </AppShell>
   );
