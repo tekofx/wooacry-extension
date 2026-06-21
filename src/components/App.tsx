@@ -5,8 +5,7 @@ import StickerCard from "./StickerCard";
 import OwnerCard from "./OwnerCard";
 function App() {
   const [opened, { toggle }] = useDisclosure();
-  const [stickers, setStickers] = useState<Sticker[]>([]);
-  const [owners, setOwners] = useState<Owner[]>([]);
+  const [data, setData] = useState<MessageResponse>();
 
   async function getPageSource() {
     const [tab] = await browser.tabs.query({
@@ -19,9 +18,7 @@ function App() {
       const response = (await browser.tabs.sendMessage(tab.id, {
         type: "EXTRACT_CART_DATA",
       })) as MessageResponse;
-
-      setStickers(response.stickers);
-      setOwners(response.owners);
+      setData(response);
     } catch (error) {
       console.error("Failed to get HTML:", error);
     }
@@ -47,10 +44,15 @@ function App() {
       <AppShell.Main>
         <Button onClick={() => getPageSource()}>Clicl</Button>
         <Stack>
+          <Text>Subtotal: {data?.subtotal}</Text>
+          <Text>Shipping: {data?.shipping}</Text>
+          <Text>Shipping per owner: {data?.shippingPerOwner}</Text>
+          <Text>Total payment: {data?.totalPayment}</Text>
+
           {/* {stickers.map((sticker, index) => (
             <StickerCard sticker={sticker} />
           ))} */}
-          {owners.map((owner, index) => (
+          {data?.owners.map((owner, index) => (
             <OwnerCard owner={owner} />
           ))}
         </Stack>
