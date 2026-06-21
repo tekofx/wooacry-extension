@@ -161,7 +161,7 @@ function computateOwners(stickers: Sticker[]): Owner[] {
       if (!acc[ownerName]) {
         acc[ownerName] = {
           name: ownerName,
-          price: 0,
+          subtotal: 0,
           stickers: [],
         };
       }
@@ -170,7 +170,7 @@ function computateOwners(stickers: Sticker[]): Owner[] {
       acc[ownerName].stickers.push(sticker);
 
       // Accumulate total price for the owner
-      acc[ownerName].price += sticker.totalPrice;
+      acc[ownerName].subtotal += sticker.totalPrice;
 
       return acc;
     },

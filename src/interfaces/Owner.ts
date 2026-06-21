@@ -1,5 +1,5 @@
 interface Owner {
   name: String;
-  price: number;
+  subtotal: number;
   stickers: Sticker[];
 }
