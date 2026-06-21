@@ -1,23 +1,10 @@
-import {
-  AppShell,
-  Box,
-  Card,
-  Group,
-  RingProgress,
-  Text,
-  Image,
-  Button,
-  Collapse,
-  NumberFormatter,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Card, Group, Text, Image, NumberFormatter } from "@mantine/core";
 
 interface StickerCardProps {
   sticker: Sticker;
 }
 
 export default function StickerCard({ sticker }: StickerCardProps) {
-  const [expanded, { toggle }] = useDisclosure(false);
   return (
     <Card padding="sm" withBorder orientation="horizontal">
       <Card.Section inheritPadding px="xs" withBorder>
@@ -34,11 +21,6 @@ export default function StickerCard({ sticker }: StickerCardProps) {
           <Text>=</Text>
           <NumberFormatter prefix="€ " value={sticker.totalPrice.toFixed(2)} />
         </Group>
-        <Button onClick={toggle}>Show more</Button>
-        <Collapse expanded={expanded}>
-          <Text>{sticker.variation}</Text>
-          <Text>{sticker.discount}%</Text>
-        </Collapse>
       </Card.Section>
     </Card>
   );

@@ -1,4 +1,5 @@
 import {
+  Accordion,
   Button,
   Card,
   Collapse,
@@ -14,14 +15,11 @@ interface OwnerCardProps {
 }
 
 export default function OwnerCard({ owner }: OwnerCardProps) {
-  const [expanded, { toggle }] = useDisclosure(false);
-
   return (
-    <Card>
-      <Card.Section>
+    <Card padding="xs">
+      <Card.Section inheritPadding>
         <Stack>
           <Text>{owner.name}</Text>
-
           <Group>
             <NumberFormatter prefix="€ " value={owner.subtotal.toFixed(2)} />
             +
@@ -34,13 +32,17 @@ export default function OwnerCard({ owner }: OwnerCardProps) {
           </Group>
         </Stack>
       </Card.Section>
-      <Card.Section>
-        <Button onClick={toggle}>Show more</Button>
-        <Collapse expanded={expanded}>
-          {owner.stickers.map((sticker, index) => (
-            <StickerCard sticker={sticker} />
-          ))}
-        </Collapse>
+      <Card.Section inheritPadding>
+        <Accordion>
+          <Accordion.Item value="a">
+            <Accordion.Control>Mostrar mas</Accordion.Control>
+            <Accordion.Panel>
+              {owner.stickers.map((sticker, index) => (
+                <StickerCard sticker={sticker} />
+              ))}
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
       </Card.Section>
     </Card>
   );
