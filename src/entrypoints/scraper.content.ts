@@ -7,8 +7,8 @@ export default defineContentScript({
       console.log("test");
       if (message.type === "EXTRACT_CART_DATA") {
         const stickers = scrapStickers();
-        const owners = computateOwners(stickers);
         const shipping = scrapShipping();
+        const owners = computateOwners(stickers, shipping);
 
         sendResponse({
           subtotal: scrapSubtotal(),
@@ -152,7 +152,7 @@ function scrapStickers(): Sticker[] {
   return stickers;
 }
 
-function computateOwners(stickers: Sticker[]): Owner[] {
+function computateOwners(stickers: Sticker[], shipping: number): Owner[] {
   // 1. Group stickers by owner name
   const ownersMap = stickers.reduce(
     (acc, sticker) => {
@@ -162,6 +162,8 @@ function computateOwners(stickers: Sticker[]): Owner[] {
         acc[ownerName] = {
           name: ownerName,
           subtotal: 0,
+          shipping: 0,
+          totalPayment: 0,
           stickers: [],
         };
       }
@@ -179,6 +181,13 @@ function computateOwners(stickers: Sticker[]): Owner[] {
 
   // 2. Convert the map object to an array
   const owners: Owner[] = Object.values(ownersMap);
+
+  // 3. Assing shipping per owner
+  const shippingPerOwner = shipping / owners.length;
+  owners.forEach((owner) => {
+    owner.shipping = shippingPerOwner;
+    owner.totalPayment = owner.subtotal + shippingPerOwner;
+  });
 
   return owners;
 }

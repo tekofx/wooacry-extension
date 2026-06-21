@@ -4,6 +4,7 @@ import {
   Collapse,
   Group,
   NumberFormatter,
+  Stack,
   Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -18,11 +19,20 @@ export default function OwnerCard({ owner }: OwnerCardProps) {
   return (
     <Card>
       <Card.Section>
-        <Group>
+        <Stack>
           <Text>{owner.name}</Text>
-          <Text>--</Text>
-          <NumberFormatter prefix="€ " value={owner.subtotal.toFixed(2)} />
-        </Group>
+
+          <Group>
+            <NumberFormatter prefix="€ " value={owner.subtotal.toFixed(2)} />
+            +
+            <NumberFormatter prefix="€ " value={owner.shipping.toFixed(2)} />
+            =
+            <NumberFormatter
+              prefix="€ "
+              value={owner.totalPayment.toFixed(2)}
+            />
+          </Group>
+        </Stack>
       </Card.Section>
       <Card.Section>
         <Button onClick={toggle}>Show more</Button>
