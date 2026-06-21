@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "../../components/App.tsx";
 import { MantineProvider, Stack } from "@mantine/core";
 import "@mantine/core/styles.css";
 import theme from "./theme.ts";
