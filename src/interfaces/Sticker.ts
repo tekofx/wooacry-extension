@@ -3,6 +3,7 @@ interface Sticker {
   variation: string;
   price: number;
   originalPrice: number;
+  totalPrice: number;
   discount: number;
   quantity: number;
   imgUrl: string;

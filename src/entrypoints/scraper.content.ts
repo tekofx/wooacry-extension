@@ -55,28 +55,37 @@ export default defineContentScript({
           }
 
           // 4. Extract ONLY the actual price
-          let currentPrice = "";
+          let price = 0;
           if (priceContainerEl) {
             const textNode = Array.from(priceContainerEl.childNodes).find(
               (node) =>
                 node.nodeType === Node.TEXT_NODE &&
                 node.textContent?.trim() !== "",
             );
-            currentPrice = textNode?.textContent?.trim() || "";
+            price = parseCurrency(textNode?.textContent?.trim() || "");
           }
+
+          let quantity = quantityInputEl
+            ? parseFloat(quantityInputEl.value) || 0
+            : parseQuantity(quantityEl?.textContent || "");
+
+          let totalPrice = parseFloat((quantity * price).toFixed(2));
+          let variation = variationEl?.textContent?.trim() || "";
+          let originalPrice = parseCurrency(
+            originalPriceEl?.textContent?.trim() || "",
+          );
+          let discount = parsePercentage(discountEl?.textContent?.trim() || "");
+          let imgUrl = imageEl?.src || "";
 
           return {
             name: name,
-            variation: variationEl?.textContent?.trim() || "",
-            price: parseCurrency(currentPrice),
-            originalPrice: parseCurrency(
-              originalPriceEl?.textContent?.trim() || "",
-            ),
-            quantity: quantityInputEl
-              ? parseFloat(quantityInputEl.value) || 0
-              : parseQuantity(quantityEl?.textContent || ""),
-            discount: parsePercentage(discountEl?.textContent?.trim() || ""),
-            imgUrl: imageEl?.src || "",
+            variation: variation,
+            price: price,
+            originalPrice: originalPrice,
+            quantity: quantity,
+            discount: discount,
+            imgUrl: imgUrl,
+            totalPrice: totalPrice,
           };
         });
 

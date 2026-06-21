@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AppShell, Burger, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import StickerCard from "./StickerCard";
 interface MessageResponse {
   data: Sticker[];
 }
@@ -45,61 +46,8 @@ function App() {
       <AppShell.Main>
         <Button onClick={() => getPageSource()}>Clicl</Button>
         <ul style={{ listStyle: "none", padding: 0 }}>
-          {stickers.map((item, index) => (
-            <li
-              key={index}
-              style={{
-                border: "1px solid #ddd",
-                padding: "1rem",
-                marginBottom: "0.5rem",
-                borderRadius: "4px",
-              }}
-            >
-              <img
-                src={item.imgUrl}
-                style={{ height: "100px", width: "auto" }}
-              />
-              <h3 style={{ margin: "0 0 0.5rem 0" }}>{item.name}</h3>
-              <p style={{ margin: "0.25rem 0", color: "#555" }}>
-                <strong>Variation:</strong> {item.variation}
-              </p>
-              <p
-                style={{
-                  margin: "0.25rem 0",
-                  color: "#2e7d32",
-                  fontWeight: "bold",
-                }}
-              >
-                Price: €{item.price.toFixed(2)}
-                Quantity: {item.quantity}
-                {item.originalPrice > 0 && (
-                  <span
-                    style={{
-                      textDecoration: "line-through",
-                      color: "#999",
-                      marginLeft: "8px",
-                      fontWeight: "normal",
-                    }}
-                  >
-                    €{item.originalPrice.toFixed(2)}
-                  </span>
-                )}
-                {item.discount !== 0 && (
-                  <span
-                    style={{
-                      backgroundColor: "#ffebee",
-                      color: "#c62828",
-                      padding: "2px 6px",
-                      borderRadius: "4px",
-                      fontSize: "0.8rem",
-                      marginLeft: "8px",
-                    }}
-                  >
-                    {item.discount}%
-                  </span>
-                )}
-              </p>
-            </li>
+          {stickers.map((sticker, index) => (
+            <StickerCard sticker={sticker} />
           ))}
         </ul>
       </AppShell.Main>
