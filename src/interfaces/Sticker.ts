@@ -4,4 +4,6 @@ interface Sticker {
   price: number;
   originalPrice: number;
   discount: number;
+  quantity: number;
+  imgUrl: string;
 }

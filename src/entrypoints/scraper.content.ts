@@ -13,22 +13,36 @@ export default defineContentScript({
 
         const extractedData: Sticker[] = Array.from(cartItems).map((item) => {
           // 2. Query specific children relative to the item
-          const nameEl = item.querySelector(
+          const nameEl: HTMLDivElement | null = item.querySelector(
             '[class*="product-cart-item_cart-item-product__"]',
           );
-          const variationEl = item.querySelector(
+          const variationEl: HTMLDivElement | null = item.querySelector(
             '[class*="product-cart-item_cart-item-variation__"]',
           );
-          const priceContainerEl = item.querySelector(
+          const priceContainerEl: HTMLDivElement | null = item.querySelector(
             '[class*="product-cart-item_cart-item-price__"]',
           );
-
-          const originalPriceEl = item.querySelector(
+          const originalPriceEl: HTMLDivElement | null = item.querySelector(
             '[class*="product-cart-item_cart-item-original__"]',
           );
-          const discountEl = item.querySelector(
+          const discountEl: HTMLDivElement | null = item.querySelector(
             '[class*="product-cart-item_cart-item-discount__"]',
           );
+          const quantityEl: HTMLDivElement | null = item.querySelector(
+            '[class*="product-cart-item_cart-item-count__"]',
+          );
+          const imageEl: HTMLImageElement | null = item.querySelector(
+            '[class*="product-cart-item_cart-item-image__"]',
+          );
+
+          let quantityInputEl: HTMLInputElement | null = null;
+
+          if (quantityEl == null) {
+            // Fallback: Look for the input field inside the current item container
+            quantityInputEl = item.querySelector<HTMLInputElement>(
+              ".stepper_input___Anww",
+            );
+          }
 
           // 3. Extract text and clean it
           let name = "";
@@ -58,7 +72,11 @@ export default defineContentScript({
             originalPrice: parseCurrency(
               originalPriceEl?.textContent?.trim() || "",
             ),
+            quantity: quantityInputEl
+              ? parseFloat(quantityInputEl.value) || 0
+              : parseQuantity(quantityEl?.textContent || ""),
             discount: parsePercentage(discountEl?.textContent?.trim() || ""),
+            imgUrl: imageEl?.src || "",
           };
         });
 
@@ -83,6 +101,15 @@ const parsePercentage = (str: string): number => {
   if (!str) return 0;
   // Remove '%' and any non-numeric chars except minus
   const cleanStr = str.replace(/[^\d.-]/g, "");
+  const num = parseFloat(cleanStr);
+  return isNaN(num) ? 0 : num;
+};
+
+// Helper function to parse quantity
+const parseQuantity = (str: string): number => {
+  if (!str) return 0;
+  // Remove any non-numeric chars
+  const cleanStr = str.replace(/[^\d]/g, "");
   const num = parseFloat(cleanStr);
   return isNaN(num) ? 0 : num;
 };

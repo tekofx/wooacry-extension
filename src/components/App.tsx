@@ -55,6 +55,10 @@ function App() {
                 borderRadius: "4px",
               }}
             >
+              <img
+                src={item.imgUrl}
+                style={{ height: "100px", width: "auto" }}
+              />
               <h3 style={{ margin: "0 0 0.5rem 0" }}>{item.name}</h3>
               <p style={{ margin: "0.25rem 0", color: "#555" }}>
                 <strong>Variation:</strong> {item.variation}
@@ -67,6 +71,7 @@ function App() {
                 }}
               >
                 Price: €{item.price.toFixed(2)}
+                Quantity: {item.quantity}
                 {item.originalPrice > 0 && (
                   <span
                     style={{
