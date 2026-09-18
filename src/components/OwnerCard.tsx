@@ -18,7 +18,7 @@ interface OwnerCardProps {
 
 export default function OwnerCard({ owner }: OwnerCardProps) {
   return (
-    <Card padding="xs">
+    <Card padding="xs" w="100%">
       <Card.Section inheritPadding>
         <Stack>
           <Group>
