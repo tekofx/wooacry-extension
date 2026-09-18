@@ -14,7 +14,7 @@ export default defineConfig({
       gecko: {
         id: "wooacry-extension@tekofx",
         data_collection_permissions: {
-          required: [],
+          required: ["none"],
         },
       },
     },
