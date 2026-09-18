@@ -12,25 +12,19 @@ import { useDisclosure } from "@mantine/hooks";
 import StickerCard from "./StickerCard";
 import OwnerCard from "./OwnerCard";
 import MoneyField from "./MoneyField";
+import { getData } from "@/services/extensionServices";
 function App() {
   const [opened, { toggle }] = useDisclosure();
   const [data, setData] = useState<MessageResponse>();
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const getPageSource = async () => {
-      const [tab] = await browser.tabs.query({
-        active: true,
-        currentWindow: true,
-      });
-      if (!tab.id) return;
-
       try {
-        const response = (await browser.tabs.sendMessage(tab.id, {
-          type: "EXTRACT_CART_DATA",
-        })) as MessageResponse;
-        setData(response);
-      } catch (error) {
-        console.error("Failed to get HTML:", error);
+        const cartData = await getData();
+        setData(cartData);
+      } catch (e) {
+        setError(e as Error);
       }
     };
     getPageSource();
@@ -39,6 +33,7 @@ function App() {
   return (
     <AppShell padding="md">
       <AppShell.Main>
+        {error != null && <p>Error: {error.message}</p>}
         {data !== undefined && (
           <Stack>
             <MoneyField text="Subtotal" quantity={data.subtotal} />
