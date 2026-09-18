@@ -1,3 +1,3 @@
-# WXT + React
+# Wooacry Extension
 
-This template should help get you started developing with React in WXT.
+Web browser extension to split the cost of a Wooacry order
