@@ -1,4 +1,4 @@
-import { Stack, Text } from "@mantine/core";
+import { Stack, Text, Title } from "@mantine/core";
 
 interface CartDataComponentProps {
   data: MessageResponse | undefined;
@@ -7,16 +7,16 @@ interface CartDataComponentProps {
 export default function CartDataComponent({ data }: CartDataComponentProps) {
   if (!data) return null;
   return (
-    <Stack align="center" justify="center">
+    <Stack align="center" justify="center" gap="xs">
+      <MoneyField text="Total payment" quantity={data.totalPayment} />
+
       <MoneyField text="Subtotal" quantity={data.subtotal} />
-      <Text>+</Text>
       <MoneyField text="Shipping" quantity={data.shipping} />
-      <Text>+</Text>
 
       <MoneyField text="Shipping each" quantity={data.shippingPerOwner} />
-      <Text>+</Text>
 
-      <MoneyField text="Total payment" quantity={data.totalPayment} />
+      <Title>Details</Title>
+
       {data.owners.map((owner, index) => (
         <OwnerCard owner={owner} />
       ))}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppShell, Group, Stack, Text } from "@mantine/core";
+import { AppShell, Group, Stack, Text, Title } from "@mantine/core";
 import OwnerCard from "./OwnerCard";
 import MoneyField from "./MoneyField";
 import { getData } from "@/services/extensionServices";
