@@ -1,20 +1,10 @@
 import { useState } from "react";
-import {
-  AppShell,
-  Burger,
-  Button,
-  Group,
-  NumberFormatter,
-  Stack,
-  Text,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import StickerCard from "./StickerCard";
+import { AppShell, Stack } from "@mantine/core";
 import OwnerCard from "./OwnerCard";
 import MoneyField from "./MoneyField";
 import { getData } from "@/services/extensionServices";
+import ErrorComponent from "./ErrorComponent";
 function App() {
-  const [opened, { toggle }] = useDisclosure();
   const [data, setData] = useState<MessageResponse>();
   const [error, setError] = useState<Error | null>(null);
 
@@ -33,7 +23,7 @@ function App() {
   return (
     <AppShell padding="md">
       <AppShell.Main>
-        {error != null && <p>Error: {error.message}</p>}
+        <ErrorComponent error={error} />
         {data !== undefined && (
           <Stack>
             <MoneyField text="Subtotal" quantity={data.subtotal} />

@@ -8,7 +8,7 @@ async function getData(): Promise<MessageResponse> {
   if (!tab.id) throw new TabNotFoundError("Tab not found");
 
   if (tab.url != "https://wooacry.com/cart") {
-    throw new NotOnCardError("Navigate to https://wooacry.com/cart");
+    throw new NotOnCardError("You are not in wooacry cart");
   }
 
   try {
