@@ -1,4 +1,4 @@
-import { NumberFormatter, Text } from "@mantine/core";
+import { Badge, NumberFormatter, Paper, Text } from "@mantine/core";
 
 interface MoneyFieldProps {
   text: string;
@@ -7,8 +7,10 @@ interface MoneyFieldProps {
 
 export default function MoneyField({ text, quantity }: MoneyFieldProps) {
   return (
-    <Text>
-      {text}: <NumberFormatter prefix="€ " value={quantity.toFixed(2)} />
-    </Text>
+    <Badge size="xl">
+      <Text>
+        {text}: <NumberFormatter prefix="€ " value={quantity.toFixed(2)} />
+      </Text>
+    </Badge>
   );
 }
