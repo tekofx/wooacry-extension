@@ -16,6 +16,8 @@ export default defineConfig({
         data_collection_permissions: {
           required: ["none"],
         },
+        update_url:
+          "https://raw.githubusercontent.com/tekofx/wooacry-extension/main/updates.json",
       },
     },
   },

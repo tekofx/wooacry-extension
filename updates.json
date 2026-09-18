@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "wooacry-extension@tekofx": {
+      "updates": [
+        {
+          "version": "1.0.0",
+          "update_link": "https://github.com/tekofx/wooacry-extension/releases/download/v1.0.0/wooacry-extension-1.0.0.xpi"
+        }
+      ]
+    }
+  }
+}
