@@ -1,5 +1,6 @@
 import {
   Accordion,
+  Badge,
   Button,
   Card,
   Collapse,
@@ -7,8 +8,9 @@ import {
   NumberFormatter,
   Stack,
   Text,
+  ThemeIcon,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { ImageIcon, PersonSimpleIcon } from "@phosphor-icons/react";
 
 interface OwnerCardProps {
   owner: Owner;
@@ -19,16 +21,15 @@ export default function OwnerCard({ owner }: OwnerCardProps) {
     <Card padding="xs">
       <Card.Section inheritPadding>
         <Stack>
-          <Text>{owner.name}</Text>
           <Group>
-            <NumberFormatter prefix="€ " value={owner.subtotal.toFixed(2)} />
-            +
-            <NumberFormatter prefix="€ " value={owner.shipping.toFixed(2)} />
-            =
-            <NumberFormatter
-              prefix="€ "
-              value={owner.totalPayment.toFixed(2)}
-            />
+            <PersonSimpleIcon />
+            <Text size="xl">{owner.name}</Text>
+            <Badge size="lg">
+              <NumberFormatter
+                prefix="€ "
+                value={owner.totalPayment.toFixed(2)}
+              />
+            </Badge>
           </Group>
         </Stack>
       </Card.Section>
