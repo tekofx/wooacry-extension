@@ -12,7 +12,9 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "sign": "bun exec 'web-ext sign --channel=unlisted --source-dir=.output/firefox-mv2 --api-key=$AMO_API_KEY --api-secret=$AMO_API_SECRET --artifacts-dir=dist'",
+    "sign:firefox": "bun run build:firefox && bun run sign"
   },
   "dependencies": {
     "@mantine/core": "^9.3.2",
@@ -29,6 +31,7 @@
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "typescript": "^5.9.3",
+    "web-ext": "^10.6.0",
     "wxt": "^0.20.26"
   }
 }
