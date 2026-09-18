@@ -4,13 +4,15 @@ import {
   Button,
   Card,
   Collapse,
+  Grid,
   Group,
   NumberFormatter,
+  Space,
   Stack,
   Text,
   ThemeIcon,
 } from "@mantine/core";
-import { ImageIcon, PersonSimpleIcon } from "@phosphor-icons/react";
+import { ImageIcon, PersonSimpleIcon, UserIcon } from "@phosphor-icons/react";
 
 interface OwnerCardProps {
   owner: Owner;
@@ -20,23 +22,29 @@ export default function OwnerCard({ owner }: OwnerCardProps) {
   return (
     <Card padding="xs" w="100%">
       <Card.Section inheritPadding>
-        <Stack>
-          <Group>
-            <PersonSimpleIcon />
-            <Text size="xl">{owner.name}</Text>
-            <Badge size="lg">
-              <NumberFormatter
-                prefix="€ "
-                value={owner.totalPayment.toFixed(2)}
-              />
-            </Badge>
-          </Group>
-        </Stack>
-      </Card.Section>
-      <Card.Section inheritPadding>
         <Accordion>
           <Accordion.Item value="a">
-            <Accordion.Control>Mostrar mas</Accordion.Control>
+            <Accordion.Control>
+              <Grid>
+                <Grid.Col span={7}>
+                  <Group>
+                    <ThemeIcon>
+                      <UserIcon />
+                    </ThemeIcon>
+                    <Text size="xl">{owner.name}</Text>
+                  </Group>
+                </Grid.Col>
+                <Grid.Col span={5}>
+                  <Badge size="lg" w="90%" h="100%">
+                    <NumberFormatter
+                      prefix="€ "
+                      value={owner.totalPayment.toFixed(2)}
+                    />
+                  </Badge>
+                  <Space w="10%" />
+                </Grid.Col>
+              </Grid>
+            </Accordion.Control>
             <Accordion.Panel>
               {owner.stickers.map((sticker, index) => (
                 <StickerCard sticker={sticker} />
