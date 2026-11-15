@@ -7,7 +7,7 @@ export default defineConfig({
 
   manifest: {
     name: "Wooacry Extension",
-    version: "1.0.0",
+    version: "1.0.1",
     description: "Extensión for splitting payment between people",
     homepage_url: "https://github.com/tekofx/wooacry-extension",
     browser_specific_settings: {
@@ -20,5 +20,6 @@ export default defineConfig({
           "https://raw.githubusercontent.com/tekofx/wooacry-extension/main/updates.json",
       },
     },
+    permissions: ["tabs"],
   },
 });
